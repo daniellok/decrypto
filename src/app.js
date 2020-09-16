@@ -1,13 +1,16 @@
 const express = require('express');
+const path = require('path');
+
 const app = express();
 const port = 3000;
+
+app.use(express.static('dist'))
 
 // global state to store all rooms
 rooms = {};
 
 app.get('/', (req, res) => {
-  // future landing page
-  // users will come here to create a room
+  res.sendFile(path.join('/index.html'))
 });
 
 app.get('/:roomId', (req, res) => {
