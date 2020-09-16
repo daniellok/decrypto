@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "webpack --config webpack.config.js",
-    "start": "nodemon src/app.js",
+    "start": "nodemon src/server/app.js",
     "watch-client": "nodemon --exec npm run build --watch src/client",
     "flow": "flow",
     "prettier": "prettier --write .",
