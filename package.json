@@ -7,6 +7,8 @@
     "build": "webpack --config webpack.config.js",
     "start": "nodemon src/app.js",
     "watch-client": "nodemon --exec npm run build --watch src/client",
+    "flow": "flow",
+    "prettier": "prettier --write .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
@@ -19,8 +21,10 @@
   "devDependencies": {
     "@babel/core": "^7.11.6",
     "@babel/preset-env": "^7.11.5",
+    "@babel/preset-flow": "^7.10.4",
     "@babel/preset-react": "^7.10.4",
     "babel-loader": "^8.1.0",
+    "flow-bin": "^0.133.0",
     "nodemon": "^2.0.4",
     "prettier": "^2.1.1",
     "webpack": "^4.44.1",
