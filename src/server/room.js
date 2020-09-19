@@ -33,11 +33,13 @@ export default class Room {
   teamA: Team;
   teamB: Team;
   phase: GamePhase;
+  round: number;
 
   constructor(id: string) {
     this.id = id;
     this.teamA = { ...defaultTeam };
     this.teamB = { ...defaultTeam };
     this.phase = "team-a-coding";
+    this.round = 1;
   }
 }
