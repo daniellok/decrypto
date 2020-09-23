@@ -1,20 +1,10 @@
 // @flow
 
+// Root client file, shouldn't need to be edited
+
 const React = require("react");
 const ReactDOM = require("react-dom");
-
-type Props = {
-  name: string,
-};
-
-function MainPage(props: Props): React.Node {
-  const { name } = props;
-  return (
-    <div>
-      <h1>Hello {name}</h1>
-    </div>
-  );
-}
+const MainPage = require("./MainPage.react");
 
 const root = document.getElementById("root");
 ReactDOM.render(<MainPage name="World" />, root);
