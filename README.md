@@ -17,7 +17,7 @@ If you modify the client files (i.e. anything inside `src/client`), make sure to
 1. Run the type-checker and fix any problems: `npm run flow`
 2. Run the auto-formatter: `npm run prettier`
 
-## Install tools
+## Before you start, you may need to install some tools:
 
 * Get npm and Node.js [here](https://nodejs.org/en/).
 * Get prettier [here](https://prettier.io).
