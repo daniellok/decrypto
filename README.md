@@ -4,7 +4,7 @@
 
 1. Clone the repo: `git clone https://github.com/daniellok/decrypto.git`
 2. Open the directory: `cd decrypto`
-3. Install dependencies: `npm install`
+3. Install dependencies: `npm install` (you can get npm and Node.js [here](https://nodejs.org/en/))
 4. Build the client: `npm run build`
 5. Run the server: `npm run start`
 
