@@ -1,5 +1,8 @@
-const React = require("react");
-const styles = require("./styles.css");
+// @flow
+
+import React from 'react';
+
+const styles = require('./styles.css');
 
 type Props = {
   label: string,
@@ -14,4 +17,4 @@ function Button(props: Props): React.Node {
   );
 }
 
-module.exports = Button;
+export default Button;
