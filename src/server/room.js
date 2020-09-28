@@ -1,12 +1,6 @@
 // @flow
 
-import type { GamePhase } from '../common/types.js';
-
-type Player = {
-  id: string,
-  active: boolean,
-  conn: any,
-};
+import type { GamePhase } from "../common/types.js";
 
 type Team = {
   players: { [string]: Player },
@@ -16,6 +10,11 @@ type Team = {
   clues: Array<string>,
   previousClues: Array<Array<string>>,
   wordGuesses: Array<string>,
+};
+
+type Player = {
+  id: string,
+  active: boolean,
 };
 
 const defaultTeam: Team = {
@@ -40,7 +39,7 @@ export default class Room {
     this.id = id;
     this.teamA = { ...defaultTeam };
     this.teamB = { ...defaultTeam };
-    this.phase = 'team-a-coding';
+    this.phase = "team-a-coding";
     this.round = 1;
   }
 }
