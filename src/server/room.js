@@ -1,6 +1,12 @@
 // @flow
 
-import type { GamePhase } from "../common/types.js";
+import type { GamePhase } from '../common/types.js';
+
+type Player = {
+  id: string,
+  active: boolean,
+  conn: any,
+};
 
 type Team = {
   players: { [string]: Player },
