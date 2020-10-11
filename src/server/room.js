@@ -36,6 +36,7 @@ const defaultTeam /* : Team */ = {
 class Room {
   /* flow types for state
   id: string;
+  teamNone: Team;
   teamA: Team;
   teamB: Team;
   phase: GamePhase;
@@ -44,10 +45,26 @@ class Room {
 
   constructor(id /* : string */) {
     this.id = id;
+    this.playerList = [];
+    this.teamNone = { ...defaultTeam};
     this.teamA = { ...defaultTeam };
     this.teamB = { ...defaultTeam };
     this.phase = 'team-a-coding';
     this.round = 1;
+  }
+
+  addPlayerToRoom(userId /*: string */) {
+    if (this.playerList.includes(userId)) {
+      console.log(`ROOM ${this.id}: failed to add player ${userId}, already in playerList`)
+      return false;
+    }
+    this.playerList.push(userId)
+    console.log(`ROOM ${this.id}: added ${userId}`)
+    return true;
+  }
+
+  addPlayerToTeam(userId /*: string */, team /*: Team */) {
+    // TODO: implement team allocation
   }
 }
 

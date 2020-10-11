@@ -23,6 +23,7 @@ app.get('/', (req, res) => {
 io.on('connection', (socket) => {
   console.log('a user connected');
   socket.on(SocketGameEvents.CREATE_ROOM, (userId) => handleCreate(userId));
+  socket.on(SocketGameEvents.JOIN_ROOM, (userId, roomId) => handleJoin(userId, roomId))
 });
 
 app.get('/:roomId', (req, res) => {
@@ -35,12 +36,31 @@ http.listen(port, () => {
 });
 
 // socket.io event handlers
-function handleCreate(userId) {
+function handleCreate(userId/*: string */) {
+  console.log(`create room received from: ${userId} `)
   roomId = generateId();
   while (rooms[roomId] != null) {
     console.log('id taken, generating new id');
     roomId = generateId();
   }
-  rooms[roomId] = new Room(roomId);
+  room = new Room(roomId);
+  rooms[roomId] = room;
   console.log('new room created:', rooms);
+  console.log('adding player to room')
+  room.addPlayerToRoom(userId)
 }
+
+function handleJoin(userId/*: string */, roomId/*: string */) {
+  // TODO: proper element membership checking
+  if (rooms[roomId]) {
+    room = rooms[roomId]
+    if (room.addPlayerToRoom(userId)) {
+      console.log(`APP: ${userId} added to room ${roomId}`)
+    }
+    console.log(`APP: ${userId} already exists in ${roomId}`)
+  }
+  console.log(`room id ${roomId} does not exist`)
+  console.log('current rooms: ', rooms)
+}
+
+

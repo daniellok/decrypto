@@ -11,6 +11,11 @@ const styles = require('./styles.css');
 type Props = {};
 
 function initConnection(userId: string) {
+  // TODO: proper onClick input validation
+  if (userId == '') {
+    alert("userID cannot be blank");
+    return false;
+  }
   const socket = io();
   console.log('socket init success');
   socket.emit(SocketGameEvents.CREATE_ROOM, userId);
@@ -18,10 +23,13 @@ function initConnection(userId: string) {
   return socket;
 }
 
+function joinRoom(conn, userId: string, roomId: string) {
+  conn.emit(SocketGameEvents.JOIN_ROOM, userId, roomId)
+}
+
 function MainPage(props: Props): React.Node {
   const [userId, setUserId] = useState('');
   const [conn, setConn] = useState();
-
   return (
     <div className="centered">
       <TextInput userId={userId} setUserId={setUserId} />
@@ -30,7 +38,7 @@ function MainPage(props: Props): React.Node {
       <Button
         label="Create New Game"
         onClick={() => {
-          console.log('Create New');
+          console.log('Create New request from userId: ' + userId);
           setConn(initConnection(userId));
         }}
       />
