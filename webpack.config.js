@@ -1,21 +1,21 @@
-const path = require("path");
+const path = require('path');
 
 module.exports = {
-  mode: "development",
-  entry: [path.resolve(__dirname, "src/client/")],
+  mode: 'development',
+  entry: [path.resolve(__dirname, 'src/client/')],
   module: {
     rules: [
       {
         test: /.(js|jsx)$/,
         exclude: /node_modules/,
         use: {
-          loader: "babel-loader",
+          loader: 'babel-loader',
         },
       },
       {
         test: /.css$/,
         exclude: /node_modules/,
-        use: ["style-loader", "css-loader"],
+        use: ['style-loader', 'css-loader'],
       },
     ],
   },

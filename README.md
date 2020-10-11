@@ -4,7 +4,7 @@
 
 1. Clone the repo: `git clone https://github.com/daniellok/decrypto.git`
 2. Open the directory: `cd decrypto`
-3. Install dependencies: `npm install` 
+3. Install dependencies: `npm install`
 4. Build the client: `npm run build`
 5. Run the server: `npm run start`
 
@@ -19,6 +19,6 @@ If you modify the client files (i.e. anything inside `src/client`), make sure to
 
 ## Before you start, you may need to install some tools:
 
-* Get npm and Node.js [here](https://nodejs.org/en/).
-* Get prettier [here](https://prettier.io).
-* Get flow [here](https://flow.org/).
+- Get npm and Node.js [here](https://nodejs.org/en/).
+- Get prettier [here](https://prettier.io).
+- Get flow [here](https://flow.org/).

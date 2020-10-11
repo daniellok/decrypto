@@ -1,6 +1,4 @@
-// @flow
-
-import type { GamePhase } from '../common/types.js';
+/* Uncomment when flow for server code is working
 
 type Player = {
   id: string,
@@ -23,7 +21,9 @@ type Player = {
   active: boolean,
 };
 
-const defaultTeam: Team = {
+*/
+
+const defaultTeam /* : Team */ = {
   players: {},
   codemaster: null,
   words: [],
@@ -33,19 +33,24 @@ const defaultTeam: Team = {
   wordGuesses: [],
 };
 
-export default class Room {
-  // flow types for state
+class Room {
+  /* flow types for state
   id: string;
   teamA: Team;
   teamB: Team;
   phase: GamePhase;
-  round: number;
+  round: number; 
+  */
 
-  constructor(id: string) {
+  constructor(id /* : string */) {
     this.id = id;
     this.teamA = { ...defaultTeam };
     this.teamB = { ...defaultTeam };
-    this.phase = "team-a-coding";
+    this.phase = 'team-a-coding';
     this.round = 1;
   }
 }
+
+module.exports = {
+  Room,
+};

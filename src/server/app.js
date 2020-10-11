@@ -1,5 +1,8 @@
 const express = require('express');
 const path = require('path');
+const { SocketGameEvents } = require('../common/events');
+const { Room } = require('./room');
+const { generateId } = require('./utils');
 
 const app = express();
 const http = require('http').createServer(app);
@@ -19,7 +22,7 @@ app.get('/', (req, res) => {
 // setup our socket.io listener
 io.on('connection', (socket) => {
   console.log('a user connected');
-  socket.on('create room', (userId) => handleCreate(userId));
+  socket.on(SocketGameEvents.CREATE_ROOM, (userId) => handleCreate(userId));
 });
 
 app.get('/:roomId', (req, res) => {
@@ -33,6 +36,11 @@ http.listen(port, () => {
 
 // socket.io event handlers
 function handleCreate(userId) {
-  // fill in later
-  console.log('creating room for ' + userId);
+  roomId = generateId();
+  while (rooms[roomId] != null) {
+    console.log('id taken, generating new id');
+    roomId = generateId();
+  }
+  rooms[roomId] = new Room(roomId);
+  console.log('new room created:', rooms);
 }
