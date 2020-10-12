@@ -1,7 +1,7 @@
 const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
 function generateId() {
-  return [...Array(5)]
+  return [...Array(4)]
     .map((_) => chars[Math.floor(Math.random() * chars.length)])
     .join('');
 }

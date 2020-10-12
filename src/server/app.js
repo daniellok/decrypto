@@ -23,6 +23,7 @@ app.get('/', (req, res) => {
 io.on('connection', (socket) => {
   console.log('a user connected');
   socket.on(SocketGameEvents.CREATE_ROOM, (userId) => handleCreate(userId));
+  socket.on(SocketGameEvents.JOIN_ROOM, (userId, roomId) => handleJoin(userId, roomId))
 });
 
 app.get('/:roomId', (req, res) => {
@@ -35,12 +36,35 @@ http.listen(port, () => {
 });
 
 // socket.io event handlers
-function handleCreate(userId) {
+function handleCreate(userId/*: string */) {
+  console.log(`create room received from: ${userId} `)
   roomId = generateId();
   while (rooms[roomId] != null) {
     console.log('id taken, generating new id');
     roomId = generateId();
   }
-  rooms[roomId] = new Room(roomId);
+  room = new Room(roomId);
+  rooms[roomId] = room;
   console.log('new room created:', rooms);
+  console.log('adding player to room')
+  room.addPlayerToRoom(userId)
 }
+
+function handleJoin(userId/*: string */, roomId/*: string */) {
+  if (rooms[roomId] == null) {
+    // TODO: send nonexist message to client to display
+   console.log(`room id ${roomId} does not exist`)
+  } else {
+    room = rooms[roomId]
+    // TODO: implement proper player class here, right now we are just using strings
+    /*fail only if playerList.includes(userId) and user is active. if user is not active,
+    we should flip the active boolean to true and return success.*/
+    if (room.addPlayerToRoom(userId)) { // TODO: if player exists AND is active
+      console.log(`APP: ${userId} added to room ${roomId}`)
+    }
+    console.log(`APP: ${userId} already exists in ${roomId}`)
+  }
+  console.log('current rooms: ', rooms)
+}
+
+
