@@ -45,8 +45,7 @@ class Room {
 
   constructor(id /* : string */) {
     this.id = id;
-    this.playerList = [];
-    this.teamNone = { ...defaultTeam};
+    this.playerList = {};
     this.teamA = { ...defaultTeam };
     this.teamB = { ...defaultTeam };
     this.phase = 'team-a-coding';
@@ -58,7 +57,8 @@ class Room {
       console.log(`ROOM ${this.id}: failed to add player ${userId}, already in playerList`)
       return false;
     }
-    this.playerList.push(userId)
+    // TODO: properly implement Players object
+    this.playerList[userId] = 'PLACEHOLDER'
     console.log(`ROOM ${this.id}: added ${userId}`)
     return true;
   }

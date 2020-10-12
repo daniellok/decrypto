@@ -51,15 +51,19 @@ function handleCreate(userId/*: string */) {
 }
 
 function handleJoin(userId/*: string */, roomId/*: string */) {
-  // TODO: proper element membership checking
-  if (rooms[roomId]) {
+  if (rooms[roomId] == null) {
+    // TODO: send nonexist message to client to display
+   console.log(`room id ${roomId} does not exist`)
+  } else {
     room = rooms[roomId]
-    if (room.addPlayerToRoom(userId)) {
+    // TODO: implement proper player class here, right now we are just using strings
+    /*fail only if playerList.includes(userId) and user is active. if user is not active,
+    we should flip the active boolean to true and return success.*/
+    if (room.addPlayerToRoom(userId)) { // TODO: if player exists AND is active
       console.log(`APP: ${userId} added to room ${roomId}`)
     }
     console.log(`APP: ${userId} already exists in ${roomId}`)
   }
-  console.log(`room id ${roomId} does not exist`)
   console.log('current rooms: ', rooms)
 }
 

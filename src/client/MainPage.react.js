@@ -11,11 +11,8 @@ const styles = require('./styles.css');
 type Props = {};
 
 function initConnection(userId: string) {
-  // TODO: proper onClick input validation
-  if (userId == '') {
-    alert("userID cannot be blank");
-    return false;
-  }
+  // TODO: need to move init connection out of this function,
+  // otherwise you can only join a room if you've pressed create before
   const socket = io();
   console.log('socket init success');
   socket.emit(SocketGameEvents.CREATE_ROOM, userId);
@@ -39,6 +36,11 @@ function MainPage(props: Props): React.Node {
         label="Create New Game"
         onClick={() => {
           console.log('Create New request from userId: ' + userId);
+            // TODO: proper onClick input validation
+            if (userId == '') {
+              alert("userID cannot be blank");
+              return;
+            }
           setConn(initConnection(userId));
         }}
       />
