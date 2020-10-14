@@ -5,20 +5,20 @@ import React from 'react';
 const styles = require('./styles.css');
 
 type Props = {
-  userId: string,
-  setUserId: (string) => void,
+  value: string,
+  setValue: (string) => void,
 };
 
 function TextInput(props: Props): React.Node {
-  const { userId, setUserId } = props;
+  const { value, setValue } = props;
 
   return (
     <input
       className="text-input"
       type="text"
-      value={userId}
+      value={value}
       onChange={(event) => {
-        setUserId(event.target.value.trim());
+        setValue(event.target.value.trim());
       }}
     />
   );
