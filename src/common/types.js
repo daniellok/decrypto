@@ -1,4 +1,31 @@
 // @flow
+export type Socket = any;
+
+export type Player = {
+  id: string,
+  active: boolean,
+  conn: any,
+};
+
+export type Room = {
+  id: string,
+  teamA: Team,
+  teamB: Team,
+  phase: GamePhase,
+  round: number,
+  playerList: { [string]: Player },
+};
+
+export type Team = {
+  players: { [string]: Player },
+  codemaster: ?Player,
+  words: Array<string>,
+  code: Array<number>,
+  clues: Array<string>,
+  previousClues: Array<Array<string>>,
+  wordGuesses: Array<string>,
+};
+
 export type GamePhase =
   | 'team-a-coding'
   | 'team-a-guessing'

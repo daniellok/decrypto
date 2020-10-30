@@ -60,14 +60,16 @@ class Room {
   }
 
   addPlayerToRoom(userId /*: string */) {
-    if (this.playerList[userId] != null & this.playerList.active) {
+    if ((this.playerList[userId] != null) & this.playerList.active) {
       // This username already exists in the room and the player is active
-      console.log(`ROOM ${this.id}: failed to add player ${userId}, already in playerList`)
+      console.log(
+        `ROOM ${this.id}: failed to add player ${userId}, already in playerList`
+      );
       return false;
     }
     // TODO: properly implement Players object
-    this.playerList[userId] = 'PLACEHOLDER'
-    console.log(`ROOM ${this.id}: added ${userId}`)
+    this.playerList[userId] = 'PLACEHOLDER';
+    console.log(`ROOM ${this.id}: added ${userId}`);
     return true;
   }
 
