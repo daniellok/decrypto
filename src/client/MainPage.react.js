@@ -1,12 +1,12 @@
 // @flow
 import type { Room, Socket } from '../../common/types.js';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Button from './Button.react';
 import TextInput from './TextInput.react';
 import * as io from 'socket.io-client';
 import { SocketGameEvents } from '../common/events';
-import { createRoom } from './utils/EventHandlers';
+import { createRoom, joinRoom } from './utils/EventHandlers';
 
 const styles = require('./styles.css');
 
@@ -14,11 +14,6 @@ type Props = {};
 
 // TODO: handle serverside disconnect, see:
 // https://socket.io/docs/client-api/#Event-%E2%80%98disconnect%E2%80%99
-
-// TODO: proper typing for conn
-function joinRoom(conn: Socket, userId: string, roomId: string) {
-  conn.emit(SocketGameEvents.JOIN_ROOM, userId, roomId);
-}
 
 function MainPage(props: Props): React.Node {
   const [userId, setUserId] = useState('');
@@ -60,7 +55,7 @@ function MainPage(props: Props): React.Node {
           console.log(
             `Join Existing request from ${userId} for room ${roomId}`
           );
-          joinRoom(conn, userId, roomId);
+          joinRoom(conn, userId, roomId, setRoomState);
         }}
       />
     </div>

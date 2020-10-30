@@ -7,8 +7,23 @@ export function createRoom(
   setRoomState: (Room) => void
 ): void {
   conn.emit(SocketGameEvents.CREATE_ROOM, userId, (roomState: Room) => {
-    const state = JSON.parse(roomState);
-    console.log('got room state from server: ', state);
-    setRoomState(state);
+    console.log('got room state from server: ', roomState);
+    setRoomState(roomState);
+  });
+}
+
+export function joinRoom(
+  conn: Socket,
+  userId: string,
+  roomId: string,
+  setRoomState: (Room) => void
+): void {
+  conn.emit(SocketGameEvents.JOIN_ROOM, userId, roomId, (res) => {
+    if (res.error) {
+      console.log('error when joining room:', res.error);
+    } else {
+      console.log('successfully joined room:', res.roomState);
+      setRoomState(res.roomState);
+    }
   });
 }
