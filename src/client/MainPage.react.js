@@ -27,13 +27,10 @@ function MainPage(props: Props): React.Node {
   const [roomState, setRoomState] = useState();
 
   // init connection on intial render
-  useEffect(
-    () => {
-      const socket = io();
-      setConn(socket);
-    },
-    [],
-  )
+  useEffect(() => {
+    const socket = io();
+    setConn(socket);
+  }, []);
 
   return (
     <div className="centered">
