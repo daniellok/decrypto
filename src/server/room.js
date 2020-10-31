@@ -79,4 +79,5 @@ class Room {
 
 module.exports = {
   Room,
+  Player,
 };

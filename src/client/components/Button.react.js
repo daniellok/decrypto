@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-const styles = require('./styles.css');
+const styles = require('../styles.css');
 
 type Props = {
   label: string,

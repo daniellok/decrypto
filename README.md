@@ -19,6 +19,6 @@ If you modify the client files (i.e. anything inside `src/client`), make sure to
 
 ## Before you start, you may need to install some tools:
 
-- Get npm and Node.js [here](https://nodejs.org/en/).
-- Get prettier [here](https://prettier.io).
-- Get flow [here](https://flow.org/).
+- npm and Node.js [here](https://nodejs.org/en/).
+- prettier [here](https://prettier.io).
+- flow [here](https://flow.org/).
