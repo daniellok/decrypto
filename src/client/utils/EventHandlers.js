@@ -18,12 +18,12 @@ export function joinRoom(
   roomId: string,
   setRoomState: (Room) => void
 ): void {
-  conn.emit(SocketGameEvents.JOIN_ROOM, userId, roomId, (res) => {
-    if (res.error) {
-      console.log('error when joining room:', res.error);
+  conn.emit(SocketGameEvents.JOIN_ROOM, userId, roomId, (response) => {
+    if (response.error) {
+      console.log('error when joining room:', response.error);
     } else {
-      console.log('successfully joined room:', res.roomState);
-      setRoomState(res.roomState);
+      console.log('successfully joined room:', response.roomState);
+      setRoomState(response.roomState);
     }
   });
 }
