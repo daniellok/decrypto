@@ -4,7 +4,7 @@ export type Socket = any;
 export type Player = {
   id: string,
   active: boolean,
-  conn: any,
+  conn: Socket,
 };
 
 export type Room = {

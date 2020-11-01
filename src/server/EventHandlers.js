@@ -8,7 +8,7 @@ const { generateId, stringifyRoom } = require('./utils');
 function handleCreate(
   rooms, // global state rooms
   userId, // id of user creating room
-  clientCallback, // socket.io fn to deliver response to client
+  clientCallback // socket.io fn to deliver response to client
 ) {
   console.log(`create room received from: ${userId} `);
   let roomId = generateId();

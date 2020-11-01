@@ -23,6 +23,14 @@ type Player = {
 
 */
 
+class Player {
+  // TODO: determine if player disconnect message is sent as player id, or as conn id
+  constructor(id /*: string*/) {
+    this.id = id;
+    this.active = true;
+  }
+}
+
 const defaultTeam /* : Team */ = {
   players: {},
   codemaster: null,
@@ -32,14 +40,6 @@ const defaultTeam /* : Team */ = {
   previousClues: [],
   wordGuesses: [],
 };
-
-class Player {
-  // TODO: determine if player disconnect message is sent as player id, or as conn id
-  constructor(id /*: string*/) {
-    this.id = id;
-    this.active = true;
-  }
-}
 
 class Room {
   /* flow types for state
@@ -60,7 +60,7 @@ class Room {
   }
 
   addPlayerToRoom(userId /*: string */) {
-    if ((this.playerList[userId] != null) && this.playerList[userId].active) {
+    if (this.playerList[userId] != null && this.playerList[userId].active) {
       // This username already exists in the room and the player is active
       console.log(
         `ROOM ${this.id}: failed to add player ${userId}, already in playerList`

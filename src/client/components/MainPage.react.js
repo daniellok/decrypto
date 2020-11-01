@@ -3,8 +3,8 @@ import type { Room, Socket } from '../../common/types.js';
 
 import React, { useState, useEffect } from 'react';
 import LandingView from './LandingView.react';
+import RoomView from './RoomView.react';
 import * as io from 'socket.io-client';
-
 const styles = require('../styles.css');
 
 type Props = {};
@@ -24,7 +24,9 @@ function MainPage(props: Props): React.Node {
     setConn(socket);
   }, []);
 
-  return (
+  return roomState != null ? (
+    <RoomView roomState={roomState} />
+  ) : (
     <LandingView
       userId={userId}
       setUserId={setUserId}

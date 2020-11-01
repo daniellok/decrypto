@@ -7,6 +7,11 @@ body {
   background-color: var(--midnight-blue);
   color: white;
   font-family: 'Cousine', monospace;
+  margin: 0px;
+}
+
+h2 {
+  margin: 0px;
 }
 
 .centered {
@@ -17,6 +22,20 @@ body {
   left: 50%;
   transform: translate(-50%, -50%);
   -ms-transform: translate(-50%, -50%);
+}
+
+.roomWrapper {
+  padding: 16px;
+}
+
+.roomHeader {
+  margin: 0px 0px 16px 0px;
+}
+
+.playerListWrapper {
+  border: 1px solid white;
+  border-radius: 5px;
+  padding: 12px;
 }
 
 .button {
