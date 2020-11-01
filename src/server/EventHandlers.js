@@ -23,7 +23,7 @@ function handleCreate(
   clientCallback(room);
 }
 
-function handleJoin(
+function handleJoinRoom(
   rooms, // global state rooms
   userId, // id of user making the call
   roomId, // id of room to join
@@ -53,7 +53,48 @@ function handleJoin(
   });
 }
 
+
+function handleJoinTeam(
+    rooms,
+    roomId,
+    userId,
+    teamId,
+    clientCallback
+) {
+  // invalid room id provided
+  if (rooms[roomId] == null) {
+    clientCallback({
+      error: 'Room does not exist',
+    });
+    return;
+  }
+
+  const room = rooms[roomId];
+
+  // userId not in room
+  // TODO: user activity?
+  if (room.playerList[userId] == null) {
+    clientCallback({
+      error:'userId does not exist in room'
+    })
+  }
+
+  if (room.addPlayerToTeam(userId, teamId)) {
+    clientCallback({
+      roomState: room,
+    });
+    return;
+  }
+
+  // something went wrong in addplayer
+  clientCallback({
+    error: 'addPlayerToTeam failed'
+  })
+
+}
+
 module.exports = {
   handleCreate,
-  handleJoin,
+  handleJoinRoom,
+  handleJoinTeam,
 };
