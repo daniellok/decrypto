@@ -3,7 +3,7 @@ const path = require('path');
 const { SocketGameEvents } = require('../common/events');
 const { Room } = require('./room');
 const { generateId } = require('./utils');
-const { handleCreate, handleJoin } = require('./EventHandlers');
+const { handleCreate, handleJoinRoom, handleJoinTeam } = require('./EventHandlers');
 
 const app = express();
 const http = require('http').createServer(app);
@@ -27,8 +27,11 @@ io.on('connection', (socket) => {
     handleCreate(rooms, userId, clientCallback);
   });
   socket.on(SocketGameEvents.JOIN_ROOM, (userId, roomId, clientCallback) => {
-    handleJoin(rooms, userId, roomId, clientCallback);
+    handleJoinRoom(rooms, userId, roomId, clientCallback);
   });
+  socket.on(SocketGameEvents.JOIN_TEAM, (userId, roomId, teamId, clientCallback) => {
+    handleJoinTeam(rooms, roomId, userId, teamId, clientCallback);
+  })
 });
 
 app.get('/:roomId', (req, res) => {

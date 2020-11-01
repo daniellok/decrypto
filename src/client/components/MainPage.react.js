@@ -25,7 +25,12 @@ function MainPage(props: Props): React.Node {
   }, []);
 
   return roomState != null ? (
-    <RoomView roomState={roomState} />
+    <RoomView
+        userId={userId}
+        conn={conn}
+        roomState={roomState}
+        setRoomState={setRoomState}
+    />
   ) : (
     <LandingView
       userId={userId}

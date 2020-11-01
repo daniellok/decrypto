@@ -17,7 +17,7 @@ export type Room = {
 };
 
 export type Team = {
-  players: { [string]: Player },
+  teamPlayerList: { [string]: Player },
   codemaster: ?Player,
   words: Array<string>,
   code: Array<number>,

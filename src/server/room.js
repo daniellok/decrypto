@@ -32,7 +32,7 @@ class Player {
 }
 
 const defaultTeam /* : Team */ = {
-  players: {},
+  teamPlayerList: {},
   codemaster: null,
   words: [],
   code: [],
@@ -53,8 +53,8 @@ class Room {
   constructor(id /* : string */) {
     this.id = id;
     this.playerList = {};
-    this.teamA = { ...defaultTeam };
-    this.teamB = { ...defaultTeam };
+    this.teamA = JSON.parse(JSON.stringify(defaultTeam));
+    this.teamB = JSON.parse(JSON.stringify(defaultTeam));
     this.phase = 'team-a-coding';
     this.round = 1;
   }
@@ -63,17 +63,32 @@ class Room {
     if (this.playerList[userId] != null && this.playerList[userId].active) {
       // This username already exists in the room and the player is active
       console.log(
-        `ROOM ${this.id}: failed to add player ${userId}, already in playerList`
+        `ROOM ${this.id}: failed to add player ${userId} [already in playerList]`
       );
       return false;
     }
     this.playerList[userId] = new Player(userId);
-    console.log(`ROOM ${this.id}: added ${userId}`);
+    console.log(`ROOM ${this.id}: added ${userId} to room`);
     return true;
   }
 
-  addPlayerToTeam(userId /*: string */, team /*: Team */) {
-    // TODO: implement team allocation
+  addPlayerToTeam(userId /*: string */, teamId /*: string */) {
+    if (this.playerList[userId] == null) {
+      // userId does not exist in this room
+      // TODO: activity check?
+      console.log(
+          `ROOM ${this.id}: failed to add player ${userId} to team ${teamId} [userId not in room]`
+      );
+      return false;
+    }
+
+    // Remove player from other team and add to this team
+    const team = (teamId === 'A') ? this.teamA : this.teamB
+    const otherTeam = (teamId === 'A') ? this.teamB : this.teamA
+    delete(otherTeam.teamPlayerList[userId])
+    team.teamPlayerList[userId] = this.playerList[userId]
+    console.log(`ROOM ${this.id}: added ${userId} to ${teamId}`);
+    return true;
   }
 }
 
