@@ -77,16 +77,16 @@ class Room {
       // userId does not exist in this room
       // TODO: activity check?
       console.log(
-          `ROOM ${this.id}: failed to add player ${userId} to team ${teamId} [userId not in room]`
+        `ROOM ${this.id}: failed to add player ${userId} to team ${teamId} [userId not in room]`
       );
       return false;
     }
 
     // Remove player from other team and add to this team
-    const team = (teamId === 'A') ? this.teamA : this.teamB
-    const otherTeam = (teamId === 'A') ? this.teamB : this.teamA
-    delete(otherTeam.teamPlayerList[userId])
-    team.teamPlayerList[userId] = this.playerList[userId]
+    const team = teamId === 'A' ? this.teamA : this.teamB;
+    const otherTeam = teamId === 'A' ? this.teamB : this.teamA;
+    delete otherTeam.teamPlayerList[userId];
+    team.teamPlayerList[userId] = this.playerList[userId];
     console.log(`ROOM ${this.id}: added ${userId} to ${teamId}`);
     return true;
   }

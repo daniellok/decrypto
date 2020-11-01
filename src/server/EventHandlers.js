@@ -53,14 +53,7 @@ function handleJoinRoom(
   });
 }
 
-
-function handleJoinTeam(
-    rooms,
-    roomId,
-    userId,
-    teamId,
-    clientCallback
-) {
+function handleJoinTeam(rooms, roomId, userId, teamId, clientCallback) {
   // invalid room id provided
   if (rooms[roomId] == null) {
     clientCallback({
@@ -75,8 +68,8 @@ function handleJoinTeam(
   // TODO: user activity?
   if (room.playerList[userId] == null) {
     clientCallback({
-      error:'userId does not exist in room'
-    })
+      error: 'userId does not exist in room',
+    });
   }
 
   if (room.addPlayerToTeam(userId, teamId)) {
@@ -88,9 +81,8 @@ function handleJoinTeam(
 
   // something went wrong in addplayer
   clientCallback({
-    error: 'addPlayerToTeam failed'
-  })
-
+    error: 'addPlayerToTeam failed',
+  });
 }
 
 module.exports = {

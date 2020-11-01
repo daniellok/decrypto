@@ -29,12 +29,11 @@ export function joinRoom(
 }
 
 export function joinTeam(
-    conn: Socket,
-    userId: string,
-    roomId: string,
-    teamId: string,
-    setRoomState: (Room) => void,
-
+  conn: Socket,
+  userId: string,
+  roomId: string,
+  teamId: string,
+  setRoomState: (Room) => void
 ): void {
   conn.emit(SocketGameEvents.JOIN_TEAM, userId, roomId, teamId, (response) => {
     if (response.error) {
@@ -43,5 +42,5 @@ export function joinTeam(
       console.log('successfully joined team:', response.roomState);
       setRoomState(response.roomState);
     }
-  })
+  });
 }
