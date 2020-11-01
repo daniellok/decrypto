@@ -16,7 +16,7 @@ export default function TeamList(props: Props): React.Node {
     >
       <h2>Team {isTeamA ? 'A' : 'B'}</h2>
       {Object.values(members).map((player: Player) => (
-        <p>{player.id}</p>
+        <p key={player.id}>{player.id}</p>
       ))}
     </div>
   );

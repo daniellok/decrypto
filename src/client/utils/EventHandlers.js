@@ -35,6 +35,7 @@ export function joinTeam(
   teamId: string,
   setRoomState: (Room) => void
 ): void {
+  console.log(userId, roomId, teamId);
   conn.emit(SocketGameEvents.JOIN_TEAM, userId, roomId, teamId, (response) => {
     if (response.error) {
       console.log('error when joining team:', response.error);

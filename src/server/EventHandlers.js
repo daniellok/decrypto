@@ -2,10 +2,12 @@
  * This file contains all the socket.io event handlers
  */
 
+const { SocketGameEvents } = require('../common/events');
 const { Room } = require('./room');
 const { generateId, stringifyRoom } = require('./utils');
 
 function handleCreate(
+  conn, // client's socket connection
   rooms, // global state rooms
   userId, // id of user creating room
   clientCallback // socket.io fn to deliver response to client
@@ -19,11 +21,15 @@ function handleCreate(
   const room = new Room(roomId);
   rooms[roomId] = room;
   console.log('new room created:', rooms);
+
+  // subscript player to room events
+  conn.join(roomId);
   room.addPlayerToRoom(userId);
   clientCallback(room);
 }
 
 function handleJoinRoom(
+  conn, // client's socket connection
   rooms, // global state rooms
   userId, // id of user making the call
   roomId, // id of room to join
@@ -41,19 +47,34 @@ function handleJoinRoom(
 
   // addPlayerToRoom returns `true` if user is
   // either inactive or not already in the room
-  if (room.addPlayerToRoom(userId)) {
+  if (!room.addPlayerToRoom(userId)) {
     clientCallback({
-      roomState: room,
+      error: 'User already in room',
     });
     return;
   }
 
+  // subscribe user to room events
+  // emit to the room that the user has joined
+  conn.join(roomId);
+  console.log('emitting to room', conn);
+  conn.to(roomId).emit(SocketGameEvents.STATE_UPDATE, { roomState: room });
+
+  // return roomState in success case
   clientCallback({
-    error: 'User already in room',
+    roomState: room,
   });
+  return;
 }
 
-function handleJoinTeam(rooms, roomId, userId, teamId, clientCallback) {
+function handleJoinTeam(
+  conn, // client's socket connection
+  rooms, // global state rooms
+  roomId, // id of room
+  userId, // id of user making the call
+  teamId, // id of team the user is trying to join
+  clientCallback // socket.io fn to deliver response to client
+) {
   // invalid room id provided
   if (rooms[roomId] == null) {
     clientCallback({
@@ -72,16 +93,18 @@ function handleJoinTeam(rooms, roomId, userId, teamId, clientCallback) {
     });
   }
 
-  if (room.addPlayerToTeam(userId, teamId)) {
+  if (!room.addPlayerToTeam(userId, teamId)) {
+    // something went wrong in addplayer
     clientCallback({
-      roomState: room,
+      error: 'addPlayerToTeam failed',
     });
     return;
   }
 
-  // something went wrong in addplayer
+  // success, emit an event to all users
+  conn.to(roomId).emit(SocketGameEvents.STATE_UPDATE, { roomState: room });
   clientCallback({
-    error: 'addPlayerToTeam failed',
+    roomState: room,
   });
 }
 

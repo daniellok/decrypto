@@ -7,6 +7,7 @@ const SocketGameEvents = {
 
   // server -> client events
   ROOM_CREATED: 'room-created',
+  STATE_UPDATE: 'state-update',
 };
 
 module.exports = {

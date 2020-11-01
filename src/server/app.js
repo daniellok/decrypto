@@ -28,15 +28,15 @@ app.get('/', (req, res) => {
 io.on('connection', (socket) => {
   console.log('a user connected');
   socket.on(SocketGameEvents.CREATE_ROOM, (userId, clientCallback) => {
-    handleCreate(rooms, userId, clientCallback);
+    handleCreate(socket, rooms, userId, clientCallback);
   });
   socket.on(SocketGameEvents.JOIN_ROOM, (userId, roomId, clientCallback) => {
-    handleJoinRoom(rooms, userId, roomId, clientCallback);
+    handleJoinRoom(socket, rooms, userId, roomId, clientCallback);
   });
   socket.on(
     SocketGameEvents.JOIN_TEAM,
     (userId, roomId, teamId, clientCallback) => {
-      handleJoinTeam(rooms, roomId, userId, teamId, clientCallback);
+      handleJoinTeam(socket, rooms, roomId, userId, teamId, clientCallback);
     }
   );
 });
