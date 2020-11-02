@@ -2,12 +2,12 @@ const express = require('express');
 const path = require('path');
 const { SocketGameEvents } = require('../common/events');
 const { Room } = require('./room');
-const { generateId } = require('./utils');
+const { generateId } = require('./utils/utils');
 const {
   handleCreate,
   handleJoinRoom,
   handleJoinTeam,
-} = require('./EventHandlers');
+} = require('./utils/EventHandlers');
 
 const app = express();
 const http = require('http').createServer(app);

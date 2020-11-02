@@ -1,5 +1,5 @@
 const { Room, Player } = require('../room');
-const { handleJoin, handleCreate } = require('../EventHandlers');
+const { handleJoin, handleCreate } = require('../utils/EventHandlers');
 
 const rooms = { asdf: new Room('asdf') };
 
