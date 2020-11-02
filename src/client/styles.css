@@ -3,6 +3,10 @@
   --midnight-blue: rgb(5, 0, 71);
 }
 
+html {
+  font-size: 16px;
+}
+
 body {
   background-color: var(--midnight-blue);
   color: white;
@@ -10,7 +14,12 @@ body {
   margin: 0px;
 }
 
+h1 {
+  font-size: 2rem;
+}
+
 h2 {
+  font-size: 1.5rem;
   margin: 0px;
 }
 
@@ -25,23 +34,43 @@ h2 {
 }
 
 .roomWrapper {
-  padding: 16px;
+  padding: 1rem;
 }
 
 .roomHeader {
-  margin: 0px 0px 16px 0px;
+  margin: 0rem 0rem 1rem 0rem;
 }
 
-.playerListWrapper {
+.teamListWrapper {
   border: 1px solid white;
-  border-radius: 5px;
-  padding: 12px;
+  border-radius: 0.5rem;
+  padding: 0.8rem;
+}
+
+.teamListHeader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.teamListButton {
+  border: 1px solid;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+  margin-left: 1.2rem;
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.teamListButton:hover {
+  cursor: pointer;
+  background-color: rgba(255, 255, 255, 0.33);
 }
 
 .button {
   border: 3px solid;
-  margin-bottom: 24px;
-  padding: 12px;
+  margin-bottom: 1.5rem;
+  padding: 0.8rem;
   font-weight: bold;
 }
 
@@ -52,8 +81,8 @@ h2 {
 
 .text-input {
   border: 3px solid;
-  margin-bottom: 24px;
-  padding: 12px;
+  margin-bottom: 1.5rem;
+  padding: 0.8rem;
   font-weight: bold;
 }
 

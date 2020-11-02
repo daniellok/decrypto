@@ -26,16 +26,17 @@ export function joinTeam(
   conn: Socket,
   userId: string,
   roomId: string,
-  teamId: string,
-  setRoomState: (Room) => void
+  teamId: string
 ): void {
-  console.log(userId, roomId, teamId);
-  conn.emit(SocketGameEvents.JOIN_TEAM, userId, roomId, teamId, (response) => {
-    if (response.error) {
-      console.log('error when joining team:', response.error);
-    } else {
-      console.log('successfully joined team:', response.roomState);
-      setRoomState(response.roomState);
-    }
+  return new Promise((resolve) => {
+    conn.emit(
+      SocketGameEvents.JOIN_TEAM,
+      userId,
+      roomId,
+      teamId,
+      (response) => {
+        resolve(response);
+      }
+    );
   });
 }
