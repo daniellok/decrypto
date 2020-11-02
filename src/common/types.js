@@ -26,10 +26,10 @@ export type Team = {
   wordGuesses: Array<string>,
 };
 
-export type GamePhase =
-  | 'team-a-coding'
+export type GamePhase = 
+  | 'init'
+  | 'encoding'
   | 'team-a-guessing'
-  | 'team-b-coding'
   | 'team-b-guessing'
   | 'tiebreaker-guess'
   | 'tiebreaker-reveal'

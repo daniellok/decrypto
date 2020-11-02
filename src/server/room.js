@@ -55,7 +55,7 @@ class Room {
     this.playerList = {};
     this.teamA = JSON.parse(JSON.stringify(defaultTeam));
     this.teamB = JSON.parse(JSON.stringify(defaultTeam));
-    this.phase = 'team-a-coding';
+    this.phase = 'init';
     this.round = 1;
   }
 
