@@ -6,7 +6,6 @@ import Button from './Button.react';
 import { createRoom, joinRoom } from '../utils/EventHandlers';
 import React, { useState } from 'react';
 
-
 type Props = {
   userId: string,
   setUserId: (string) => void,
@@ -31,8 +30,8 @@ export default function LandingView(props: Props): React.Node {
   async function onCreateClick(): void {
     console.log(`Create New request from userId: ${userId}`);
     if (validateUsername(userId)) {
-     const roomState = await createRoom(conn, userId);
-     setRoomState(roomState);
+      const roomState = await createRoom(conn, userId);
+      setRoomState(roomState);
     }
   }
 
@@ -41,11 +40,11 @@ export default function LandingView(props: Props): React.Node {
     if (validateUsername(userId)) {
       const response = await joinRoom(conn, userId, roomId);
       if (response.error) {
-        console.log(`Join Existing failed: ${response.error}`)
+        console.log(`Join Existing failed: ${response.error}`);
         setErrorMessage(response.error);
         return;
       }
-      setRoomState(response.roomState)
+      setRoomState(response.roomState);
     }
   }
 

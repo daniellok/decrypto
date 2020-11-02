@@ -25,7 +25,7 @@ function handleCreate(
   // subscript player to room events
   conn.join(roomId);
   room.addPlayerToRoom(userId);
-  clientCallback({roomState: room});
+  clientCallback({ roomState: room });
 }
 
 function handleJoinRoom(
