@@ -7,6 +7,7 @@ const {
   handleCreate,
   handleJoinRoom,
   handleJoinTeam,
+  handleStartGame,
 } = require('./utils/EventHandlers');
 
 const app = express();
@@ -39,6 +40,9 @@ io.on('connection', (socket) => {
       handleJoinTeam(socket, rooms, roomId, userId, teamId, clientCallback);
     }
   );
+  socket.on(SocketGameEvents.START_GAME, (roomId, clientCallback) => {
+    handleStartGame(socket, rooms, roomId, clientCallback);
+  });
 });
 
 app.get('/:roomId', (req, res) => {

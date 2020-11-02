@@ -1,27 +1,5 @@
-/* Uncomment when flow for server code is working
-
-type Player = {
-  id: string,
-  active: boolean,
-  conn: any,
-};
-
-type Team = {
-  players: { [string]: Player },
-  codemaster: ?Player,
-  words: Array<string>,
-  code: Array<number>,
-  clues: Array<string>,
-  previousClues: Array<Array<string>>,
-  wordGuesses: Array<string>,
-};
-
-type Player = {
-  id: string,
-  active: boolean,
-};
-
-*/
+const { SocketGameEvents } = require('../common/events');
+const { generateCode, generateWords } = require('./utils/utils');
 
 class Player {
   // TODO: determine if player disconnect message is sent as player id, or as conn id
@@ -50,7 +28,7 @@ class Room {
   round: number; 
   */
 
-  constructor(id /* : string */) {
+  constructor(id) {
     this.id = id;
     this.playerList = {};
     this.teamA = JSON.parse(JSON.stringify(defaultTeam));
@@ -59,7 +37,7 @@ class Room {
     this.round = 1;
   }
 
-  addPlayerToRoom(userId /*: string */) {
+  addPlayerToRoom(userId) {
     if (this.playerList[userId] != null && this.playerList[userId].active) {
       // This username already exists in the room and the player is active
       console.log(
@@ -72,7 +50,7 @@ class Room {
     return true;
   }
 
-  addPlayerToTeam(userId /*: string */, teamId /*: string */) {
+  addPlayerToTeam(userId, teamId) {
     if (this.playerList[userId] == null) {
       // userId does not exist in this room
       // TODO: activity check?
@@ -88,6 +66,19 @@ class Room {
     delete otherTeam.teamPlayerList[userId];
     team.teamPlayerList[userId] = this.playerList[userId];
     console.log(`ROOM ${this.id}: added ${userId} to ${teamId}`);
+    return true;
+  }
+
+  startGame() {
+    // TODO: error handling, e.g. not all users joined teams
+    const words = generateWords();
+
+    // TODO: set codemasters as first player of each team
+    this.teamA.words = words.slice(0, 4);
+    this.teamA.code = generateCode();
+    this.teamB.words = words.slice(4, 8);
+    this.teamB.code = generateCode();
+    this.phase = 'encoding';
     return true;
   }
 }

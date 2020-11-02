@@ -109,8 +109,35 @@ function handleJoinTeam(
   });
 }
 
+function handleStartGame(
+  conn, // client's socket connection
+  rooms, // global state rooms
+  roomId, // id of room
+  clientCallback // socket.io fn to deliver response to client
+) {
+  if (rooms[roomId] == null) {
+    clientCallback({
+      error: 'Room does not exist',
+    });
+  }
+
+  const room = rooms[roomId];
+  if (!room.startGame()) {
+    clientCallback({
+      error: 'Could not start game',
+    });
+  }
+
+  // emit a state update to all clients
+  conn.to(this.id).emit(SocketGameEvents.STATE_UPDATE, { roomState: room });
+  clientCallback({
+    roomState: room,
+  });
+}
+
 module.exports = {
   handleCreate,
   handleJoinRoom,
   handleJoinTeam,
+  handleStartGame,
 };

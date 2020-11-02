@@ -2,7 +2,8 @@
 import type { Room, Socket } from '../../common/types';
 import React from 'react';
 import TeamList from './TeamList.react';
-import { joinTeam } from '../utils/EventHandlers';
+import Button from './Button.react';
+import { joinTeam, startGame } from '../utils/EventHandlers';
 
 type Props = {
   userId: string,
@@ -22,6 +23,13 @@ export default function RoomView(props: Props): React.Node {
     setRoomState(response.roomState);
   }
 
+  async function onStartGameClick(): void {
+    console.log(`${roomState.id}: request start game`);
+    const response = await startGame(conn, roomState.id);
+    console.log(`${roomState.id}: start response`, response);
+    setRoomState(response.roomState);
+  }
+
   return (
     <div className="roomWrapper">
       <h1 className="roomHeader">Room Code: {roomState.id}</h1>
@@ -35,6 +43,7 @@ export default function RoomView(props: Props): React.Node {
         members={roomState.teamB.teamPlayerList}
         onJoinTeamClick={onJoinTeamClick}
       />
+      <Button label="Start Game" onClick={onStartGameClick} />
     </div>
   );
 }

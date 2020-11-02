@@ -27,7 +27,7 @@ export function joinTeam(
   userId: string,
   roomId: string,
   teamId: string
-): void {
+): Promise<Room> {
   return new Promise((resolve) => {
     conn.emit(
       SocketGameEvents.JOIN_TEAM,
@@ -38,5 +38,13 @@ export function joinTeam(
         resolve(response);
       }
     );
+  });
+}
+
+export function startGame(conn: Socket, roomId: string): Promise<Room> {
+  return new Promise((resolve) => {
+    conn.emit(SocketGameEvents.START_GAME, roomId, (response) => {
+      resolve(response);
+    });
   });
 }
