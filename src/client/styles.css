@@ -56,3 +56,8 @@ h2 {
   padding: 12px;
   font-weight: bold;
 }
+
+.error {
+  color: chocolate;
+  font-weight: bolder;
+}

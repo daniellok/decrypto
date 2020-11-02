@@ -2,8 +2,8 @@
  * This file contains all the socket.io event handlers
  */
 
-const { SocketGameEvents } = require('../common/events');
-const { Room } = require('./room');
+const { SocketGameEvents } = require('../../common/events');
+const { Room } = require('../room');
 const { generateId, stringifyRoom } = require('./utils');
 
 function handleCreate(
@@ -25,7 +25,7 @@ function handleCreate(
   // subscript player to room events
   conn.join(roomId);
   room.addPlayerToRoom(userId);
-  clientCallback(room);
+  clientCallback({roomState: room});
 }
 
 function handleJoinRoom(
@@ -35,10 +35,12 @@ function handleJoinRoom(
   roomId, // id of room to join
   clientCallback // socket.io fn to deliver response to client
 ) {
+  console.log(`join room received from: ${userId} for room: ${roomId}`);
   // invalid room id provided
   if (rooms[roomId] == null) {
+    console.log(`join room failed: room [${roomId}] does not exist`);
     clientCallback({
-      error: 'Room does not exist',
+      error: `The room code [${roomId}] does not exist.`,
     });
     return;
   }
@@ -49,7 +51,7 @@ function handleJoinRoom(
   // either inactive or not already in the room
   if (!room.addPlayerToRoom(userId)) {
     clientCallback({
-      error: 'User already in room',
+      error: `The username ${userId} is already in this room!`,
     });
     return;
   }
@@ -64,7 +66,6 @@ function handleJoinRoom(
   clientCallback({
     roomState: room,
   });
-  return;
 }
 
 function handleJoinTeam(
