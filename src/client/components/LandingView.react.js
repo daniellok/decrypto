@@ -35,7 +35,7 @@ export default function LandingView(props: Props): React.Node {
     }
   }
 
-  async function onJoinClick(): void {
+  async function onJoinRoomClick(): void {
     console.log(`Join Existing request from ${userId} for room ${roomId}`);
     if (validateUsername(userId)) {
       const response = await joinRoom(conn, userId, roomId);
@@ -60,7 +60,7 @@ export default function LandingView(props: Props): React.Node {
       <br />
       <h2>Enter room code here: {roomId}</h2>
       <TextInput value={roomId} setValue={setRoomId} />
-      <Button label="Join Existing Game" onClick={onJoinClick} />
+      <Button label="Join Existing Game" onClick={onJoinRoomClick} />
     </div>
   );
 }
