@@ -70,16 +70,32 @@ class Room {
   }
 
   startGame() {
-    // TODO: error handling, e.g. not all users joined teams
     const words = generateWords();
 
-    // TODO: set codemasters as first player of each team
+    // check that all players have joined a team
+    const playerCountA = Object.keys(this.teamA.teamPlayerList).length;
+    const playerCountB = Object.keys(this.teamB.teamPlayerList).length;
+    const playerCount = Object.keys(this.playerList).length;
+    if (playerCountA + playerCountB !== playerCount) {
+      throw 'Not all players have joined a team';
+    }
+
+    // check that each team has at least one player
+    if (playerCountA === 0) {
+      throw 'Team A does not have any players';
+    }
+    if (playerCountB === 0) {
+      throw 'Team B does not have any players';
+    }
+
+    this.teamA.codeMaster = Object.keys(this.teamA.teamPlayerList)[0];
     this.teamA.words = words.slice(0, 4);
     this.teamA.code = generateCode();
+
+    this.teamB.codeMaster = Object.keys(this.teamB.teamPlayerList)[0];
     this.teamB.words = words.slice(4, 8);
     this.teamB.code = generateCode();
     this.phase = 'encoding';
-    return true;
   }
 }
 

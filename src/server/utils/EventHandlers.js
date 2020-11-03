@@ -59,7 +59,6 @@ function handleJoinRoom(
   // subscribe user to room events
   // emit to the room that the user has joined
   conn.join(roomId);
-  console.log('emitting to room', conn);
   conn.to(roomId).emit(SocketGameEvents.STATE_UPDATE, { roomState: room });
 
   // return roomState in success case
@@ -122,17 +121,18 @@ function handleStartGame(
   }
 
   const room = rooms[roomId];
-  if (!room.startGame()) {
+  try {
+    room.startGame();
+    // emit a state update to all clients
+    conn.to(this.id).emit(SocketGameEvents.STATE_UPDATE, { roomState: room });
     clientCallback({
-      error: 'Could not start game',
+      roomState: room,
+    });
+  } catch (error) {
+    clientCallback({
+      error: error,
     });
   }
-
-  // emit a state update to all clients
-  conn.to(this.id).emit(SocketGameEvents.STATE_UPDATE, { roomState: room });
-  clientCallback({
-    roomState: room,
-  });
 }
 
 module.exports = {

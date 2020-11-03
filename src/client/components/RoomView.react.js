@@ -1,6 +1,6 @@
 // @flow
 import type { Room, Socket } from '../../common/types';
-import React from 'react';
+import React, { useState } from 'react';
 import TeamList from './TeamList.react';
 import Button from './Button.react';
 import { joinTeam, startGame } from '../utils/EventHandlers';
@@ -15,6 +15,8 @@ type Props = {
 export default function RoomView(props: Props): React.Node {
   const { userId, conn, roomState, setRoomState } = props;
 
+  const [errorMessage, setErrorMessage] = useState();
+
   async function onJoinTeamClick(teamId: string): void {
     console.log(
       `${roomState.id}: request player ${userId} to join Team ${teamId}`
@@ -27,22 +29,28 @@ export default function RoomView(props: Props): React.Node {
     console.log(`${roomState.id}: request start game`);
     const response = await startGame(conn, roomState.id);
     console.log(`${roomState.id}: start response`, response);
-    setRoomState(response.roomState);
+    if (response.error != null) {
+      setErrorMessage(response.error);
+    } else {
+      setRoomState(response.roomState);
+    }
   }
 
   return (
-    <div className="roomWrapper">
+    <div className="roomWrapper centered">
       <h1 className="roomHeader">Room Code: {roomState.id}</h1>
-      <TeamList
-        isTeamA={true}
-        members={roomState.teamA.teamPlayerList}
-        onJoinTeamClick={onJoinTeamClick}
-      />
-      <TeamList
-        isTeamA={false}
-        members={roomState.teamB.teamPlayerList}
-        onJoinTeamClick={onJoinTeamClick}
-      />
+      <div>
+        <TeamList
+          isTeamA={true}
+          members={roomState.teamA.teamPlayerList}
+          onJoinTeamClick={onJoinTeamClick}
+        />
+        <TeamList
+          isTeamA={false}
+          members={roomState.teamB.teamPlayerList}
+          onJoinTeamClick={onJoinTeamClick}
+        />
+      </div>
       <Button label="Start Game" onClick={onStartGameClick} />
     </div>
   );
