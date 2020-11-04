@@ -86,11 +86,46 @@ h2 {
   background-color: rgba(255, 255, 255, 0.33);
 }
 
-.text-input {
-  border: 3px solid;
-  margin-bottom: 1.5rem;
-  padding: 0.8rem;
+.textInput {
+  color: white;
+  background-color: rgba(0, 0, 0, 0);
+  border: none;
+  box-sizing: border-box;
+  outline: none;
+  font-size: 1.5rem;
+  padding: 0.7rem;
   font-weight: bold;
+  text-align: center;
+  width: 100%;
+}
+
+.textInputUnderline {
+  height: 2.9rem;
+  box-sizing: border-box;
+}
+
+.textInputUnderline::before{
+  content: '';
+  left: 0;
+  right: 0;
+  bottom: 0;
+  position: absolute;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.5);
+  transition: all 0.1s ease;
+}
+
+.textInputUnderline:hover::before {
+  border-bottom: 3px solid white;
+}
+
+.textInputUnderline:focus-within::before {
+  border-bottom: 3px solid white;
+}
+
+.textInputWrapper {
+  box-sizing: border-box;
+  position: relative;
+  margin-bottom: 1rem;
 }
 
 .error {

@@ -13,14 +13,18 @@ function TextInput(props: Props): React.Node {
   const { value, setValue } = props;
 
   return (
-    <input
-      className="text-input"
-      type="text"
-      value={value}
-      onChange={(event) => {
-        setValue(event.target.value.trim());
-      }}
-    />
+    <div className="textInputWrapper">
+      <div className="textInputUnderline">
+        <input
+          className="textInput"
+          type="text"
+          value={value}
+          onChange={(event) => {
+            setValue(event.target.value.trim());
+          }}
+        />
+      </div>
+    </div>
   );
 }
 
