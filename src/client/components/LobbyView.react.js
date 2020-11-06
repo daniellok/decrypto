@@ -12,7 +12,7 @@ type Props = {
   setRoomState: (Room) => void,
 };
 
-export default function RoomView(props: Props): React.Node {
+export default function LobbyView(props: Props): React.Node {
   const { userId, conn, roomState, setRoomState } = props;
 
   const [errorMessage, setErrorMessage] = useState();
