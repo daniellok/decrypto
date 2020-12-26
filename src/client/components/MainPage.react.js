@@ -4,6 +4,7 @@ import type { Room, Socket } from '../../common/types';
 import React, { useState, useEffect } from 'react';
 import LandingView from './LandingView.react';
 import LobbyView from './LobbyView.react';
+import RoomView from './RoomView.react';
 import * as io from 'socket.io-client';
 import { SocketGameEvents } from '../../common/events';
 
@@ -66,7 +67,7 @@ function MainPage(props: Props): React.Node {
         />
       );
     case 'room':
-      return null;
+      return <RoomView />;
   }
 }
 

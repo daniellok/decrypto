@@ -27,7 +27,6 @@ app.get('/', (req, res) => {
 
 // setup our socket.io listener
 io.on('connection', (socket) => {
-  console.log('a user connected');
   socket.on(SocketGameEvents.CREATE_ROOM, (userId, clientCallback) => {
     handleCreate(socket, rooms, userId, clientCallback);
   });
@@ -41,7 +40,7 @@ io.on('connection', (socket) => {
     }
   );
   socket.on(SocketGameEvents.START_GAME, (roomId, clientCallback) => {
-    handleStartGame(socket, rooms, roomId, clientCallback);
+    handleStartGame(io, rooms, roomId, clientCallback);
   });
 });
 

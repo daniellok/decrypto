@@ -65,6 +65,7 @@ class Room {
     const otherTeam = teamId === 'A' ? this.teamB : this.teamA;
     delete otherTeam.teamPlayerList[userId];
     team.teamPlayerList[userId] = this.playerList[userId];
+
     console.log(`ROOM ${this.id}: added ${userId} to ${teamId}`);
     return true;
   }

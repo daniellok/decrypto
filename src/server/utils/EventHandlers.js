@@ -4,7 +4,11 @@
 
 const { SocketGameEvents } = require('../../common/events');
 const { Room } = require('../room');
-const { generateId, stringifyRoom } = require('./utils');
+const {
+  generateId,
+  sendRedactedStateUpdates,
+  stringifyRoom,
+} = require('./utils');
 
 function handleCreate(
   conn, // client's socket connection
@@ -20,9 +24,9 @@ function handleCreate(
   }
   const room = new Room(roomId);
   rooms[roomId] = room;
-  console.log('new room created:', rooms);
+  console.log('new room created:', roomId);
 
-  // subscript player to room events
+  // subscribe player to room & team events
   conn.join(roomId);
   room.addPlayerToRoom(userId);
   clientCallback({ roomState: room });
@@ -101,7 +105,12 @@ function handleJoinTeam(
     return;
   }
 
-  // success, emit an event to all users
+  // success, subscribe the user to team-specific events
+  const otherTeamId = teamId === 'A' ? 'B' : 'A';
+  conn.leave(`${roomId}.${otherTeamId}`);
+  conn.join(`${roomId}.${teamId}`);
+
+  // emit an event to all users
   conn.to(roomId).emit(SocketGameEvents.STATE_UPDATE, { roomState: room });
   clientCallback({
     roomState: room,
@@ -109,7 +118,7 @@ function handleJoinTeam(
 }
 
 function handleStartGame(
-  conn, // client's socket connection
+  io, // global socket connection
   rooms, // global state rooms
   roomId, // id of room
   clientCallback // socket.io fn to deliver response to client
@@ -123,11 +132,9 @@ function handleStartGame(
   const room = rooms[roomId];
   try {
     room.startGame();
+
     // emit a state update to all clients
-    conn.to(this.id).emit(SocketGameEvents.STATE_UPDATE, { roomState: room });
-    clientCallback({
-      roomState: room,
-    });
+    sendRedactedStateUpdates(io, room);
   } catch (error) {
     clientCallback({
       error: error,

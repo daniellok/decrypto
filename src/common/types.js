@@ -26,7 +26,14 @@ export type Team = {
   wordGuesses: Array<string>,
 };
 
-export type GamePhase = 
+export type RedactedTeam = {
+  teamPlayerList: { [string]: Player },
+  codemaster: Player,
+  clues: Array<string>,
+  previousClues: Array<Array<string>>,
+};
+
+export type GamePhase =
   | 'init'
   | 'encoding'
   | 'team-a-guessing'

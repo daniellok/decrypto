@@ -28,11 +28,9 @@ export default function LobbyView(props: Props): React.Node {
   async function onStartGameClick(): void {
     console.log(`${roomState.id}: request start game`);
     const response = await startGame(conn, roomState.id);
-    console.log(`${roomState.id}: start response`, response);
+    console.log('response', response);
     if (response.error != null) {
       setErrorMessage(response.error);
-    } else {
-      setRoomState(response.roomState);
     }
   }
 
@@ -40,6 +38,7 @@ export default function LobbyView(props: Props): React.Node {
     <div className="roomWrapper centered">
       <h1 className="roomHeader">Room Code: {roomState.id}</h1>
       <div>
+        <p className="error">{errorMessage}</p>
         <TeamList
           isTeamA={true}
           members={roomState.teamA.teamPlayerList}
