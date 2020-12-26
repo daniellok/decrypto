@@ -3,9 +3,10 @@ const { generateCode, generateWords } = require('./utils/utils');
 
 class Player {
   // TODO: determine if player disconnect message is sent as player id, or as conn id
-  constructor(id /*: string*/) {
+  constructor(id, socketId) {
     this.id = id;
     this.active = true;
+    this.socketId = socketId;
   }
 }
 
@@ -37,7 +38,7 @@ class Room {
     this.round = 1;
   }
 
-  addPlayerToRoom(userId) {
+  addPlayerToRoom(userId, socketId) {
     if (this.playerList[userId] != null && this.playerList[userId].active) {
       // This username already exists in the room and the player is active
       console.log(
@@ -45,7 +46,7 @@ class Room {
       );
       return false;
     }
-    this.playerList[userId] = new Player(userId);
+    this.playerList[userId] = new Player(userId, socketId);
     console.log(`ROOM ${this.id}: added ${userId} to room`);
     return true;
   }
@@ -89,11 +90,11 @@ class Room {
       throw 'Team B does not have any players';
     }
 
-    this.teamA.codeMaster = Object.keys(this.teamA.teamPlayerList)[0];
+    this.teamA.codemaster = Object.keys(this.teamA.teamPlayerList)[0];
     this.teamA.words = words.slice(0, 4);
     this.teamA.code = generateCode();
 
-    this.teamB.codeMaster = Object.keys(this.teamB.teamPlayerList)[0];
+    this.teamB.codemaster = Object.keys(this.teamB.teamPlayerList)[0];
     this.teamB.words = words.slice(4, 8);
     this.teamB.code = generateCode();
     this.phase = 'encoding';

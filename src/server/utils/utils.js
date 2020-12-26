@@ -31,7 +31,8 @@ function generateWords() {
   return indices.map((idx) => words[idx]);
 }
 
-function redactTeam(team) {
+// player should see minimal state for the opposing team
+function redactOpposingTeam(team) {
   return {
     ...team,
     words: undefined,
@@ -40,18 +41,49 @@ function redactTeam(team) {
   };
 }
 
+// if the player isn't codemaster, they shouldn't see the code
+function redactOwnTeam(team) {
+  return {
+    ...team,
+    code: undefined,
+  };
+}
+
+function redactRoomStateForPlayer(playerId, room) {
+  const playerInTeamA = Object.keys(room.teamA.teamPlayerList).includes(
+    playerId
+  );
+
+  let redactedTeamA;
+  let redactedTeamB;
+  if (playerInTeamA) {
+    redactedTeamB = redactOpposingTeam(room.teamB);
+    redactedTeamA =
+      room.teamA.codemaster === playerId
+        ? room.teamA
+        : redactOwnTeam(room.teamA);
+  } else {
+    redactedTeamA = redactOpposingTeam(room.teamA);
+    redactedTeamB =
+      room.teamB.codemaster === playerId
+        ? room.teamB
+        : redactOwnTeam(room.teamB);
+  }
+
+  return {
+    ...room,
+    teamA: redactedTeamA,
+    teamB: redactedTeamB,
+  };
+}
+
 function sendRedactedStateUpdates(io, room) {
-  io.to(`${room.id}.A`).emit(SocketGameEvents.STATE_UPDATE, {
-    roomState: {
-      ...room,
-      teamB: redactTeam(room.teamB),
-    },
-  });
-  io.to(`${room.id}.B`).emit(SocketGameEvents.STATE_UPDATE, {
-    roomState: {
-      ...room,
-      teamA: redactTeam(room.teamA),
-    },
+  Object.values(room.playerList).map((player) => {
+    const redactedRoomState = redactRoomStateForPlayer(player.id, room);
+    console.log('rrs', redactedRoomState);
+    io.to(player.socketId).emit(SocketGameEvents.STATE_UPDATE, {
+      roomState: redactedRoomState,
+    });
   });
 }
 

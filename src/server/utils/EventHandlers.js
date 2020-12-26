@@ -28,7 +28,7 @@ function handleCreate(
 
   // subscribe player to room & team events
   conn.join(roomId);
-  room.addPlayerToRoom(userId);
+  room.addPlayerToRoom(userId, conn.id);
   clientCallback({ roomState: room });
 }
 
@@ -42,9 +42,9 @@ function handleJoinRoom(
   console.log(`join room received from: ${userId} for room: ${roomId}`);
   // invalid room id provided
   if (rooms[roomId] == null) {
-    console.log(`join room failed: room [${roomId}] does not exist`);
+    console.log(`join room failed: room "${roomId}" does not exist`);
     clientCallback({
-      error: `The room code [${roomId}] does not exist.`,
+      error: `The room code "${roomId}" does not exist.`,
     });
     return;
   }
@@ -53,7 +53,7 @@ function handleJoinRoom(
 
   // addPlayerToRoom returns `true` if user is
   // either inactive or not already in the room
-  if (!room.addPlayerToRoom(userId)) {
+  if (!room.addPlayerToRoom(userId, conn.id)) {
     clientCallback({
       error: `The username ${userId} is already in this room!`,
     });
@@ -136,6 +136,7 @@ function handleStartGame(
     // emit a state update to all clients
     sendRedactedStateUpdates(io, room);
   } catch (error) {
+    console.log('error in handleStartGame:', error);
     clientCallback({
       error: error,
     });
