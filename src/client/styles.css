@@ -33,6 +33,24 @@ h2 {
   -ms-transform: translate(-50%, -50%);
 }
 
+.marginBetween {
+  margin: 0.75rem;
+}
+
+.flexRow {
+  display: flex;
+  flex-direction: row;
+}
+
+.flexColumn {
+  display: flex;
+  flex-direction: column;
+}
+
+.fontLarge {
+  font-size: 1.5rem;
+}
+
 .roomWrapper {
   padding: 1rem;
   display: flex;
@@ -131,11 +149,6 @@ h2 {
 .error {
   color: chocolate;
   font-weight: bolder;
-}
-
-.wordDisplaysWrapper {
-  display: flex;
-  flex-direction: row;
 }
 
 .wordBoxWrapper {

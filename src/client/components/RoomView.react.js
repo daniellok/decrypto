@@ -1,7 +1,11 @@
 // @flow
 import type { Room, Socket } from '../../common/types';
+import { getTeamForUser } from '../utils/utils';
 import React, { useState } from 'react';
+
 import WordBox from './WordBox.react';
+import EncodingSubview from './EncodingSubview.react';
+import WaitingSubview from './WaitingSubview.react';
 
 type Props = {
   userId: string,
@@ -11,15 +15,24 @@ type Props = {
 
 export default function RoomView(props: Props): React.Node {
   const { userId, conn, roomState, setRoomState } = props;
-  const team = userId in roomState.teamA.teamPlayerList ? 'A' : 'B';
-  const words = team === 'A' ? roomState.teamA.words : roomState.teamB.words;
+  const team = getTeamForUser(userId, roomState);
+  const words = team.words;
+  const isCodemaster = team.codemaster === userId;
+
   const wordDisplays = words.map((word, idx) => (
     <WordBox key={word} idx={idx} word={word} />
   ));
 
+  const subview = isCodemaster ? (
+    <EncodingSubview userId={userId} conn={conn} roomState={roomState} />
+  ) : (
+    <WaitingSubview />
+  );
+
   return (
     <div className="roomWrapper centered">
-      <div className="wordDisplaysWrapper">{wordDisplays}</div>
+      <div className="flexRow">{wordDisplays}</div>
+      {subview}
     </div>
   );
 }

@@ -11,7 +11,7 @@ export default function WordBox(props: Props): React.Node {
   return (
     <div className="wordBoxWrapper">
       <div className="wordBox">{props.word}</div>
-      <div className="wordIdx">{props.idx}</div>
+      <div className="wordIdx">{props.idx + 1}</div>
     </div>
   );
 }
