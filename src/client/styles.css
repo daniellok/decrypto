@@ -132,3 +132,26 @@ h2 {
   color: chocolate;
   font-weight: bolder;
 }
+
+.wordDisplaysWrapper {
+  display: flex;
+  flex-direction: row;
+}
+
+.wordBoxWrapper {
+  margin: 1rem;
+  padding: 1rem;
+  border: 2px solid white;
+  border-radius: 0.5rem;
+}
+
+.wordBox {
+  padding: 1rem;
+  border: 2px solid white;
+  border-radius: 0.5rem;
+}
+
+.wordIdx {
+  margin-top: 1rem;
+  font-size: 1.5rem;
+}
