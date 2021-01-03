@@ -48,3 +48,22 @@ export function startGame(conn: Socket, roomId: string): Promise<Room> {
     });
   });
 }
+
+export function finishEncoding(
+  conn: Socket,
+  roomId: string,
+  teamId: string,
+  clues: Array<string>
+): Promise<Room> {
+  return new Promise((resolve) => {
+    conn.emit(
+      SocketGameEvents.FINISH_ENCODING,
+      roomId,
+      teamId,
+      clues,
+      (response) => {
+        resolve(response);
+      }
+    );
+  });
+}

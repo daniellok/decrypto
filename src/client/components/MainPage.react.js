@@ -67,7 +67,14 @@ function MainPage(props: Props): React.Node {
         />
       );
     case 'room':
-      return <RoomView userId={userId} conn={conn} roomState={roomState} />;
+      return (
+        <RoomView
+          userId={userId}
+          conn={conn}
+          roomState={roomState}
+          setRoomState={setRoomState}
+        />
+      );
   }
 }
 

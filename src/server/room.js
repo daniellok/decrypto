@@ -32,8 +32,8 @@ class Room {
   constructor(id) {
     this.id = id;
     this.playerList = {};
-    this.teamA = JSON.parse(JSON.stringify(defaultTeam));
-    this.teamB = JSON.parse(JSON.stringify(defaultTeam));
+    this.teamA = JSON.parse(JSON.stringify({ ...defaultTeam, id: 'A' }));
+    this.teamB = JSON.parse(JSON.stringify({ ...defaultTeam, id: 'B' }));
     this.phase = 'init';
     this.round = 1;
   }
@@ -71,6 +71,49 @@ class Room {
     return true;
   }
 
+  advancePhase() {
+    const oddRound = this.round % 2 == 1;
+    console.log('advancing phase', this.phase);
+
+    switch (this.phase) {
+      case 'init':
+        console.log('inside init case');
+        this.phase = 'encoding';
+        break;
+      case 'encoding':
+        this.phase = oddRound ? 'team-a-guessing' : 'team-b-guessing';
+        break;
+      case 'team-a-guessing':
+        // TODO: win logic
+        if (oddRound) {
+          this.phase = 'team-b-guessing';
+        } else {
+          this.phase = 'encoding';
+          this.round += 1;
+        }
+        break;
+      case 'team-b-guessing':
+        // TODO: win logic
+        if (oddRound) {
+          this.phase = 'encoding';
+          this.round += 1;
+        } else {
+          this.phase = 'team-a-guessing';
+        }
+        break;
+      case 'tiebreaker-guess':
+        this.phase = 'tiebreaker-reveal';
+        break;
+      case 'tiebreaker-reveal':
+        // TODO: win logic
+        break;
+      case 'team-a-win':
+      case 'team-b-win':
+        this.phase = 'init';
+        break;
+    }
+  }
+
   startGame() {
     const words = generateWords();
 
@@ -97,7 +140,27 @@ class Room {
     this.teamB.codemaster = Object.keys(this.teamB.teamPlayerList)[0];
     this.teamB.words = words.slice(4, 8);
     this.teamB.code = generateCode();
-    this.phase = 'encoding';
+    this.advancePhase();
+  }
+
+  addCluesForTeam(clues, team) {
+    let teamObj;
+    let otherTeamObj;
+    if (team === 'A') {
+      teamObj = this.teamA;
+      otherTeamObj = this.teamB;
+    } else {
+      teamObj = this.teamB;
+      otherTeamObj = this.teamA;
+    }
+
+    // set clues for team
+    teamObj.clues = [...clues];
+
+    // check if other team has set their clues. if so, end phase
+    if (otherTeamObj.clues.length !== 0) {
+      this.advancePhase();
+    }
   }
 }
 

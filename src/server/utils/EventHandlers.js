@@ -143,9 +143,29 @@ function handleStartGame(
   }
 }
 
+function handleFinishEncoding(
+  io, // global socket connection
+  rooms, // global state rooms
+  roomId, // id of room
+  teamId, // id of team
+  clues, // clues given
+  clientCallback // socket.io fn to deliver response to client
+) {
+  if (rooms[roomId] == null) {
+    clientCallback({
+      error: 'Room does not exist',
+    });
+  }
+
+  const room = rooms[roomId];
+  room.addCluesForTeam(clues, teamId);
+  sendRedactedStateUpdates(io, room);
+}
+
 module.exports = {
   handleCreate,
   handleJoinRoom,
   handleJoinTeam,
   handleStartGame,
+  handleFinishEncoding,
 };

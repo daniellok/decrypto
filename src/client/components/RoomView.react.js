@@ -11,6 +11,7 @@ type Props = {
   userId: string,
   conn: Socket,
   roomState: Room,
+  setRoomState: (Room) => void,
 };
 
 export default function RoomView(props: Props): React.Node {
@@ -24,7 +25,12 @@ export default function RoomView(props: Props): React.Node {
   ));
 
   const subview = isCodemaster ? (
-    <EncodingSubview userId={userId} conn={conn} roomState={roomState} />
+    <EncodingSubview
+      userId={userId}
+      conn={conn}
+      roomState={roomState}
+      setRoomState={setRoomState}
+    />
   ) : (
     <WaitingSubview />
   );

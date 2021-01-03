@@ -5,6 +5,7 @@ const SocketGameEvents = {
   LEAVE_ROOM: 'leave-room',
   JOIN_TEAM: 'join-team',
   START_GAME: 'start-game',
+  FINISH_ENCODING: 'finish-encoding',
 
   // server -> client events
   ROOM_CREATED: 'room-created',

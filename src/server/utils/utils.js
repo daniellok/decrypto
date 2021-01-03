@@ -80,7 +80,6 @@ function redactRoomStateForPlayer(playerId, room) {
 function sendRedactedStateUpdates(io, room) {
   Object.values(room.playerList).map((player) => {
     const redactedRoomState = redactRoomStateForPlayer(player.id, room);
-    console.log('rrs', redactedRoomState);
     io.to(player.socketId).emit(SocketGameEvents.STATE_UPDATE, {
       roomState: redactedRoomState,
     });
