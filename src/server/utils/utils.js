@@ -35,6 +35,7 @@ function generateWords() {
 function redactOpposingTeam(team) {
   return {
     ...team,
+    clues: [],
     words: undefined,
     code: undefined,
     wordGuesses: undefined,
@@ -45,6 +46,7 @@ function redactOpposingTeam(team) {
 function redactOwnTeam(team) {
   return {
     ...team,
+    clues: [],
     code: undefined,
   };
 }
@@ -68,6 +70,18 @@ function redactRoomStateForPlayer(playerId, room) {
       room.teamB.codemaster === playerId
         ? room.teamB
         : redactOwnTeam(room.teamB);
+  }
+
+  // redact clues based on phase
+  switch (room.phase) {
+    case 'team-a-guessing':
+      redactedTeamA.clues = [...room.teamA.clues];
+      break;
+    case 'team-b-guessing':
+      redactedTeamB.clues = [...room.teamB.clues];
+      break;
+    default:
+      break;
   }
 
   return {
