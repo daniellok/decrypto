@@ -5,6 +5,7 @@ import React, { useState } from 'react';
 
 import WordBox from './WordBox.react';
 import EncodingSubview from './EncodingSubview.react';
+import GuessingSubview from './GuessingSubview.react';
 import WaitingSubview from './WaitingSubview.react';
 
 type Props = {
@@ -47,6 +48,13 @@ export default function RoomView(props: Props): React.Node {
       } else {
         // normal people just wait in this phase
         <WaitingSubview />;
+      }
+      break;
+    case 'team-a-guessing':
+      if (isCodemaster) {
+        subview = <div>Pray that your team gets it right.</div>;
+      } else {
+        subview = <GuessingSubview />;
       }
       break;
     default:
