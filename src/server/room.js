@@ -84,7 +84,6 @@ class Room {
         this.phase = oddRound ? 'team-a-guessing' : 'team-b-guessing';
         break;
       case 'team-a-guessing':
-        // TODO: win logic
         if (oddRound) {
           this.phase = 'team-b-guessing';
         } else {
@@ -154,7 +153,10 @@ class Room {
       otherTeamObj = this.teamA;
     }
 
-    // set clues for team
+    // set clues for team, do nothing if team already has clues
+    if (teamObj.clues.length !== 0) {
+      return;
+    }
     teamObj.clues = [...clues];
 
     // check if other team has set their clues. if so, end phase
