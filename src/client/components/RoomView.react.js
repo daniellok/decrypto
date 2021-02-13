@@ -27,7 +27,6 @@ export default function RoomView(props: Props): React.Node {
   ));
 
   let subview;
-
   switch (phase) {
     case 'encoding':
       if (isCodemaster) {
@@ -51,10 +50,17 @@ export default function RoomView(props: Props): React.Node {
       }
       break;
     case 'team-a-guessing':
-      if (isCodemaster) {
+      if (isCodemaster && team.id == 'A') {
         subview = <div>Pray that your team gets it right.</div>;
       } else {
-        subview = <GuessingSubview />;
+        subview = <GuessingSubview roomState={roomState} userId={userId} />;
+      }
+      break;
+    case 'team-b-guessing':
+      if (isCodemaster && team.id == 'B') {
+        subview = <div>Pray that your team gets it right.</div>;
+      } else {
+        subview = <GuessingSubview roomState={roomState} userId={userId} />;
       }
       break;
     default:

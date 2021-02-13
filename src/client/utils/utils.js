@@ -4,6 +4,13 @@ function getTeamForUser(userId, roomState) {
     : roomState.teamB;
 }
 
+function getOtherTeamForUser(userId, roomState) {
+  return userId in roomState.teamA.teamPlayerList
+    ? roomState.teamB
+    : roomState.teamA;
+}
+
 module.exports = {
+  getOtherTeamForUser,
   getTeamForUser,
 };
