@@ -1,18 +1,20 @@
 // @flow
 import type { Room, Socket } from '../../common/types';
 import { getOtherTeamForUser, getTeamForUser } from '../utils/utils';
+import { updateGuess } from '../utils/EventHandlers';
 import React, { useState } from 'react';
 
 import Button from './Button.react';
 import ClueGuesser from './ClueGuesser.react';
 
 type Props = {
+  conn: Socket,
   roomState: Room,
   userId: string,
 };
 
 export default function GuessingSubview(props: Props): React.Node {
-  const { roomState, userId } = props;
+  const { conn, roomState, userId } = props;
   const phase = roomState.phase;
   const [guesses, setGuesses] = useState([-1, -1, -1]);
 
@@ -25,6 +27,13 @@ export default function GuessingSubview(props: Props): React.Node {
     return <div>If you see this please let Dan or Kai know.</div>;
   }
 
+  const handleUpdateGuess = (idx: number, guess: number) => {
+    const newGuesses = [...guesses];
+    newGuesses[idx] = guess;
+    setGuesses(newGuesses);
+    updateGuess(conn, roomState.id, userId, newGuesses);
+  };
+
   return (
     <div className="flexColumn">
       <div className="marginBetween">
@@ -35,11 +44,10 @@ export default function GuessingSubview(props: Props): React.Node {
       <div className="flexRow justifyCenter">
         {clues.map((clue, idx) => (
           <ClueGuesser
+            key={clue}
             clue={clue}
             setGuess={(guess) => {
-              const newGuesses = [...guesses];
-              newGuesses[idx] = guess;
-              setGuesses(newGuesses);
+              handleUpdateGuess(idx, guess);
             }}
           />
         ))}

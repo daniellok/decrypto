@@ -6,6 +6,8 @@ const { SocketGameEvents } = require('../../common/events');
 const { Room } = require('../room');
 const {
   generateId,
+  getTeamForPlayer,
+  redactRoomStateForPlayer,
   sendRedactedStateUpdates,
   stringifyRoom,
 } = require('./utils');
@@ -162,10 +164,34 @@ function handleFinishEncoding(
   sendRedactedStateUpdates(io, room);
 }
 
+function handleUpdateGuess(
+  io, // global socket connection
+  rooms, // global state rooms
+  roomId, // id of room
+  playerId, // id of player
+  guess // the player's guess
+) {
+  if (rooms[roomId] == null) {
+    clientCallback({
+      error: 'Room does not exist',
+    });
+  }
+
+  const room = rooms[roomId];
+  const team = getTeamForPlayer(room, playerId);
+  room.updateGuessForPlayer(playerId, guess);
+
+  // send state updates to team
+  io.to(`${roomId}.${team}`).emit(SocketGameEvents.STATE_UPDATE, {
+    roomState: redactRoomStateForPlayer(playerId, room),
+  });
+}
+
 module.exports = {
   handleCreate,
   handleJoinRoom,
   handleJoinTeam,
   handleStartGame,
   handleFinishEncoding,
+  handleUpdateGuess,
 };

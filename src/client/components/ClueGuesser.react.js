@@ -18,6 +18,7 @@ export default function ClueGuesser(props: Props): React.Node {
       <div className="flexRow">
         {[1, 2, 3, 4].map((num) => (
           <Button
+            key={`${clue}.${num}`}
             className="guessButton"
             label={String(num)}
             onClick={() => setGuess(num)}

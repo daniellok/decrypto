@@ -107,10 +107,22 @@ function stringifyRoom(room, userId) {
   return JSON.stringify(room);
 }
 
+function getTeamForPlayer(room, userId) {
+  if (userId in room.teamA.teamPlayerList) {
+    return 'A';
+  } else if (userId in room.teamB.teamPlayerList) {
+    return 'B';
+  }
+
+  throw new Error(`User ${userId} not in room ${room}`);
+}
+
 module.exports = {
   generateCode,
   generateId,
   generateWords,
+  redactRoomStateForPlayer,
   sendRedactedStateUpdates,
   stringifyRoom,
+  getTeamForPlayer,
 };

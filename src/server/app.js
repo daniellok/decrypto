@@ -9,6 +9,7 @@ const {
   handleJoinTeam,
   handleStartGame,
   handleFinishEncoding,
+  handleUpdateGuess,
 } = require('./utils/EventHandlers');
 
 const app = express();
@@ -49,6 +50,9 @@ io.on('connection', (socket) => {
       handleFinishEncoding(io, rooms, roomId, teamId, clues, clientCallback);
     }
   );
+  socket.on(SocketGameEvents.UPDATE_GUESS, (roomId, playerId, guess) => {
+    handleUpdateGuess(io, rooms, roomId, playerId, guess);
+  });
 });
 
 app.get('/:roomId', (req, res) => {

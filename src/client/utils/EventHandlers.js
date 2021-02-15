@@ -67,3 +67,12 @@ export function finishEncoding(
     );
   });
 }
+
+export function updateGuess(
+  conn: Socket,
+  roomId: string,
+  userId: string,
+  guess: Array<number>
+): void {
+  conn.emit(SocketGameEvents.UPDATE_GUESS, roomId, userId, guess);
+}

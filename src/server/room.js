@@ -1,5 +1,9 @@
 const { SocketGameEvents } = require('../common/events');
-const { generateCode, generateWords } = require('./utils/utils');
+const {
+  generateCode,
+  generateWords,
+  getTeamForPlayer,
+} = require('./utils/utils');
 
 class Player {
   // TODO: determine if player disconnect message is sent as player id, or as conn id
@@ -16,6 +20,7 @@ const defaultTeam /* : Team */ = {
   words: [],
   code: [],
   clues: [],
+  codeGuesses: {}, // playerId : guess
   previousClues: [],
   wordGuesses: [],
 };
@@ -162,6 +167,15 @@ class Room {
     // check if other team has set their clues. if so, end phase
     if (otherTeamObj.clues.length !== 0) {
       this.advancePhase();
+    }
+  }
+
+  updateGuessForPlayer(userId, guess) {
+    const team = getTeamForPlayer(this, userId);
+    if (team === 'A') {
+      this.teamA.codeGuesses[userId] = guess;
+    } else {
+      this.teamB.codeGuesses[userId] = guess;
     }
   }
 }
