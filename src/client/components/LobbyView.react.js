@@ -34,6 +34,11 @@ export default function LobbyView(props: Props): React.Node {
     }
   }
 
+  async function onMainMenuClick(): void {
+    console.log(`${roomState.id}: request back to main menu`);
+    setRoomState(null);
+  }
+
   return (
     <>
       <div className="roomCodeDisplay">{roomState.id}</div>
@@ -53,6 +58,7 @@ export default function LobbyView(props: Props): React.Node {
           />
         </div>
         <Button label="Start Game" onClick={onStartGameClick} />
+        <Button label="Back to Main Menu" onClick={onMainMenuClick} />
       </div>
     </>
   );
