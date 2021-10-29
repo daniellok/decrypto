@@ -11,6 +11,7 @@ const {
   sendRedactedStateUpdates,
   stringifyRoom,
 } = require('./utils');
+var _ = require('lodash');
 
 function handleCreate(
   conn, // client's socket connection
@@ -187,6 +188,37 @@ function handleUpdateGuess(
   });
 }
 
+function handleClientDisconnect(socket) {
+  // if the user has not joined any rooms, then do nothing
+  if (Object.keys(socket.rooms).length < 2) {
+    return;
+  }
+  // get room ID (this is a bit hacky)
+  const roomId = Object.keys(socket.rooms)[1];
+  const socketId = socket.id;
+  const room = rooms[roomId];
+
+  // get player list from room
+  const playerList = room.playerList;
+
+  // playerList is a map of playerId:socketId
+  const playerId = _.findKey(
+    playerList,
+    (player) => player.socketId === socketId
+  );
+
+  // set the player as inactive
+  if (room.setPlayerInactive(playerId)) {
+    console.log(
+      `playerId: ${playerId}, roomId: ${roomId}, socketId: ${socketId} disconnected successfully`
+    );
+  } else {
+    console.log(
+      `playerId: ${playerId}, roomId: ${roomId}, socketId: ${socketId} failed to disconnect`
+    );
+  }
+}
+
 module.exports = {
   handleCreate,
   handleJoinRoom,
@@ -194,4 +226,5 @@ module.exports = {
   handleStartGame,
   handleFinishEncoding,
   handleUpdateGuess,
+  handleClientDisconnect,
 };
