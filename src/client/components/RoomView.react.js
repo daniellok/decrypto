@@ -72,9 +72,12 @@ export default function RoomView(props: Props): React.Node {
   }
 
   return (
-    <div className="roomWrapper centered">
-      <div className="flexRow">{wordDisplays}</div>
-      {subview}
-    </div>
+    <>
+      <div className="roomCodeDisplay">{roomState.id}</div>
+      <div className="roomWrapper centered">
+        <div className="flexRow">{wordDisplays}</div>
+        {subview}
+      </div>
+    </>
   );
 }

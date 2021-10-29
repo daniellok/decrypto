@@ -35,22 +35,25 @@ export default function LobbyView(props: Props): React.Node {
   }
 
   return (
-    <div className="roomWrapper centered">
-      <h1 className="roomHeader">Room Code: {roomState.id}</h1>
-      <div>
-        <p className="error">{errorMessage}</p>
-        <TeamList
-          isTeamA={true}
-          members={roomState.teamA.teamPlayerList}
-          onJoinTeamClick={onJoinTeamClick}
-        />
-        <TeamList
-          isTeamA={false}
-          members={roomState.teamB.teamPlayerList}
-          onJoinTeamClick={onJoinTeamClick}
-        />
+    <>
+      <div className="roomCodeDisplay">{roomState.id}</div>
+      <div className="roomWrapper centered">
+        <h1 className="roomHeader">Room Code: {roomState.id}</h1>
+        <div>
+          <p className="error">{errorMessage}</p>
+          <TeamList
+            isTeamA={true}
+            members={roomState.teamA.teamPlayerList}
+            onJoinTeamClick={onJoinTeamClick}
+          />
+          <TeamList
+            isTeamA={false}
+            members={roomState.teamB.teamPlayerList}
+            onJoinTeamClick={onJoinTeamClick}
+          />
+        </div>
+        <Button label="Start Game" onClick={onStartGameClick} />
       </div>
-      <Button label="Start Game" onClick={onStartGameClick} />
-    </div>
+    </>
   );
 }
