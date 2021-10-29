@@ -34,7 +34,7 @@ export default function LobbyView(props: Props): React.Node {
     }
   }
 
-  async function onMainMenuClick(): void {
+  function onMainMenuClick(): void {
     console.log(`${roomState.id}: request back to main menu`);
     setRoomState(null);
   }
