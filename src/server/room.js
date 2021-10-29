@@ -66,6 +66,24 @@ class Room {
     return true;
   }
 
+  setPlayerInactive(userId) {
+    if (this.playerList[userId] != null && this.playerList[userId].active) {
+      console.log(`ROOM ${this.id}: setting ${userId} to inactive `);
+      this.playerList[userId].active = false;
+      return true;
+    } else if (this.playerList[userId] === null) {
+      console.log(
+        `ROOM ${this.id}: failed to set ${userId} to inactive [user does not exist in room]`
+      );
+      return false;
+    } else if (!this.playerList[userId].active) {
+      console.log(
+        `ROOM ${this.id}: failed to set ${userId} to inactive [user is already inactive]`
+      );
+      return false;
+    }
+  }
+
   addPlayerToTeam(userId, teamId) {
     if (this.playerList[userId] == null) {
       // userId does not exist in this room
