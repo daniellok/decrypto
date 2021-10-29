@@ -50,6 +50,16 @@ class Room {
         `ROOM ${this.id}: failed to add player ${userId} [already in playerList]`
       );
       return false;
+    } else if (
+      this.playerList[userId] != null &&
+      !this.playerList[userId].active
+    ) {
+      // This username already exists in the room, and the player is inactive
+      // set them to active and update the playerList with the new socketId
+      console.log(`ROOM ${this.id}: player ${userId} is rejoining`);
+      this.playerList[userId].active = true;
+      this.playerList[userId].socketId = socketId;
+      return true;
     }
     this.playerList[userId] = new Player(userId, socketId);
     console.log(`ROOM ${this.id}: added ${userId} to room`);
