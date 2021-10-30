@@ -3,7 +3,7 @@ import type { Room, Socket } from '../../common/types';
 import React, { useState } from 'react';
 import TeamList from './TeamList.react';
 import Button from './Button.react';
-import { joinTeam, startGame } from '../utils/EventHandlers';
+import { joinTeam, leaveRoom, startGame } from '../utils/EventHandlers';
 
 type Props = {
   userId: string,
@@ -36,6 +36,7 @@ export default function LobbyView(props: Props): React.Node {
 
   function onMainMenuClick(): void {
     console.log(`${roomState.id}: request back to main menu`);
+    leaveRoom(conn);
     setRoomState(null);
   }
 

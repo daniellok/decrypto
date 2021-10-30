@@ -76,3 +76,7 @@ export function updateGuess(
 ): void {
   conn.emit(SocketGameEvents.UPDATE_GUESS, roomId, userId, guess);
 }
+
+export function leaveRoom(conn: Socket): void {
+  conn.emit(SocketGameEvents.CLIENT_DISCONNECT);
+}
