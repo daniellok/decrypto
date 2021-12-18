@@ -10,6 +10,7 @@ const {
   handleStartGame,
   handleFinishEncoding,
   handleUpdateGuess,
+  handleClientDisconnect,
 } = require('./utils/EventHandlers');
 
 const app = express();
@@ -56,6 +57,9 @@ io.on('connection', (socket) => {
       handleUpdateGuess(io, rooms, roomId, playerId, guess, clientCallback);
     }
   );
+  socket.on(SocketGameEvents.CLIENT_DISCONNECT, () => {
+    handleClientDisconnect(socket);
+  });
 });
 
 app.get('/:roomId', (req, res) => {

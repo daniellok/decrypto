@@ -86,3 +86,7 @@ export function updateGuess(
     );
   });
 }
+
+export function leaveRoom(conn: Socket): void {
+  conn.emit(SocketGameEvents.CLIENT_DISCONNECT);
+}

@@ -3,7 +3,7 @@ import type { Room, Socket } from '../../common/types';
 import React, { useState } from 'react';
 import TeamList from './TeamList.react';
 import Button from './Button.react';
-import { joinTeam, startGame } from '../utils/EventHandlers';
+import { joinTeam, leaveRoom, startGame } from '../utils/EventHandlers';
 
 type Props = {
   userId: string,
@@ -34,23 +34,33 @@ export default function LobbyView(props: Props): React.Node {
     }
   }
 
+  function onMainMenuClick(): void {
+    console.log(`${roomState.id}: request back to main menu`);
+    leaveRoom(conn);
+    setRoomState(null);
+  }
+
   return (
-    <div className="roomWrapper centered">
-      <h1 className="roomHeader">Room Code: {roomState.id}</h1>
-      <div>
-        <p className="error">{errorMessage}</p>
-        <TeamList
-          isTeamA={true}
-          members={roomState.teamA.teamPlayerList}
-          onJoinTeamClick={onJoinTeamClick}
-        />
-        <TeamList
-          isTeamA={false}
-          members={roomState.teamB.teamPlayerList}
-          onJoinTeamClick={onJoinTeamClick}
-        />
+    <>
+      <div className="roomCodeDisplay">{roomState.id}</div>
+      <div className="roomWrapper centered">
+        <h1 className="roomHeader">Room Code: {roomState.id}</h1>
+        <div>
+          <p className="error">{errorMessage}</p>
+          <TeamList
+            isTeamA={true}
+            members={roomState.teamA.teamPlayerList}
+            onJoinTeamClick={onJoinTeamClick}
+          />
+          <TeamList
+            isTeamA={false}
+            members={roomState.teamB.teamPlayerList}
+            onJoinTeamClick={onJoinTeamClick}
+          />
+        </div>
+        <Button label="Start Game" onClick={onStartGameClick} />
+        <Button label="Back to Main Menu" onClick={onMainMenuClick} />
       </div>
-      <Button label="Start Game" onClick={onStartGameClick} />
-    </div>
+    </>
   );
 }
