@@ -25,8 +25,7 @@ export default function EncodingSubview(props: Props): React.Node {
       setErrorMessage('Please fill in all clues!');
       return;
     }
-    const response = await finishEncoding(conn, roomState.id, team.id, clues);
-    console.log(response);
+    await finishEncoding(conn, roomState.id, team.id, clues);
   };
 
   const codeInputs = code.map((item, idx) => {

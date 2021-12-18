@@ -50,9 +50,12 @@ io.on('connection', (socket) => {
       handleFinishEncoding(io, rooms, roomId, teamId, clues, clientCallback);
     }
   );
-  socket.on(SocketGameEvents.UPDATE_GUESS, (roomId, playerId, guess) => {
-    handleUpdateGuess(io, rooms, roomId, playerId, guess);
-  });
+  socket.on(
+    SocketGameEvents.UPDATE_GUESS,
+    (roomId, playerId, guess, clientCallback) => {
+      handleUpdateGuess(io, rooms, roomId, playerId, guess, clientCallback);
+    }
+  );
 });
 
 app.get('/:roomId', (req, res) => {

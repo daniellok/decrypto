@@ -73,6 +73,16 @@ export function updateGuess(
   roomId: string,
   userId: string,
   guess: Array<number>
-): void {
-  conn.emit(SocketGameEvents.UPDATE_GUESS, roomId, userId, guess);
+): Promise<string> {
+  return new Promise((resolve) => {
+    conn.emit(
+      SocketGameEvents.UPDATE_GUESS,
+      roomId,
+      userId,
+      guess,
+      (response) => {
+        resolve(response);
+      }
+    );
+  });
 }

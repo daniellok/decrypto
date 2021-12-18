@@ -169,7 +169,8 @@ function handleUpdateGuess(
   rooms, // global state rooms
   roomId, // id of room
   playerId, // id of player
-  guess // the player's guess
+  guess, // the player's guess
+  clientCallback // socket.io fn to deliver response to client
 ) {
   if (rooms[roomId] == null) {
     clientCallback({
@@ -184,6 +185,9 @@ function handleUpdateGuess(
   // send state updates to team
   io.to(`${roomId}.${team}`).emit(SocketGameEvents.STATE_UPDATE, {
     roomState: redactRoomStateForPlayer(playerId, room),
+  });
+  clientCallback({
+    error: null,
   });
 }
 
